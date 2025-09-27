@@ -3,8 +3,8 @@
 // @author       Asemov/mtxve
 // @namespace    https://github.com/mtxve
 // @version      1.0
-// @updateURL    https://raw.githubusercontent.com/mtxve//Torn-QOL-Scripts/TCRAP/tcrap.js
-// @downloadURL  https://raw.githubusercontent.com/mtxve//Torn-QOL-Scripts/TCRAP/tcrap.js
+// @updateURL    https://raw.githubusercontent.com/mtxve/Torn-QOL-Scripts/refs/heads/main/TCRAP/tcrap.js
+// @downloadURL  https://raw.githubusercontent.com/mtxve/Torn-QOL-Scripts/refs/heads/main/TCRAP/tcrap.js
 // @description  Reveal actual Defence Settings Percentages
 // @match        https://www.torn.com/preferences.php*
 // ==/UserScript==
