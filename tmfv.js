@@ -2,7 +2,7 @@
 // @name         Torn Multi Float Viewer
 // @namespace    https://torn.com/
 // @version      1.0
-// @description  I was told I couldn't add loadout switching to the attack loader, so I brought the items page to the attack loader.... And everywhere else. (Not going on Github)
+// @description  I was told I couldn't add loadout switching to the attack loader, so I brought the items page to the attack loader.... And everywhere else.
 // @author       Asemov/mtxve
 // @match        https://www.torn.com/*
 // @grant        none
