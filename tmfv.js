@@ -1,23 +1,101 @@
 // ==UserScript==
 // @name         Torn Multi Float Viewer
 // @namespace    https://torn.com/
-// @version      1.0
+// @version      1.2
 // @description  I was told I couldn't add loadout switching to the attack loader, so I brought the items page to the attack loader.... And everywhere else.
 // @author       Asemov/mtxve
 // @match        https://www.torn.com/*
 // @grant        none
-// @run-at       document-idle
+// @run-at       document-start
 // ==/UserScript==
 
 (function () {
   "use strict";
-  if (window.self !== window.top) return;
+  const isTop = window.self === window.top;
 
   const STORAGE_KEY = "tmfv_windows_v1";
   const MIN_W = 220;
   const MIN_H = 200;
   const HDR_H = 32;
   const PAD = 8;
+  const CHAT_BLOCK_STYLE_ID = "tmfv-chat-block";
+  const CHAT_BLOCK_SELECTOR = [
+    'script[src*="/builds/chat/"]',
+    'script[data-id="chat-script"]',
+    'link[rel="stylesheet"][href*="/builds/chat/"]',
+    '#chatRoot',
+    '#chat-root',
+    '#chat',
+    '[data-chat-root]'
+  ].join(",");
+  const CHAT_BLOCK_CSS = `
+  #chatRoot,
+  #chat-root,
+  #chat,
+  [data-chat-root] {
+    display: none !important;
+  }`;
+
+  const setupChatBlocker = () => {
+    const removeChatNodes = (root) => {
+      if (!root || root.nodeType !== Node.ELEMENT_NODE) return;
+      const el = root;
+      if (el.matches(CHAT_BLOCK_SELECTOR)) {
+        el.remove();
+        return;
+      }
+      el.querySelectorAll(CHAT_BLOCK_SELECTOR).forEach((node) => node.remove());
+    };
+
+    const injectStyle = () => {
+      if (document.getElementById(CHAT_BLOCK_STYLE_ID)) return;
+      const s = document.createElement("style");
+      s.id = CHAT_BLOCK_STYLE_ID;
+      s.textContent = CHAT_BLOCK_CSS;
+      (document.head || document.documentElement)?.appendChild(s);
+    };
+
+    const root = document.documentElement;
+    if (root) {
+      injectStyle();
+      removeChatNodes(root);
+    }
+
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            removeChatNodes(node);
+          }
+        });
+      }
+    });
+    if (root) {
+      observer.observe(root, { childList: true, subtree: true });
+    } else {
+      document.addEventListener("DOMContentLoaded", () => {
+        injectStyle();
+        const readyRoot = document.documentElement;
+        if (readyRoot) {
+          removeChatNodes(readyRoot);
+          observer.observe(readyRoot, { childList: true, subtree: true });
+        }
+      }, { once: true });
+    }
+  };
+
+  if (!isTop) {
+    setupChatBlocker();
+    return;
+  }
+
+  const onReady = (fn) => {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", fn, { once: true });
+    } else {
+      fn();
+    }
+  };
 
   const style = document.createElement("style");
   style.textContent = `
@@ -52,7 +130,11 @@
   .tmfv-iframe { flex: 1; border: 0; width: 100%; height: 100%; background: #000; }
   .tmfv-hidden { display: none !important; }
   `;
-  document.head.appendChild(style);
+  const appendStyle = () => {
+    if (!style.isConnected) {
+      (document.head || document.documentElement).appendChild(style);
+    }
+  };
 
   const loadRaw = () => { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); } catch { return []; } };
   const cleanAndLoad = () => {
@@ -129,10 +211,26 @@
 
   function hookIframe(iframe,id,titleEl){
     iframe.addEventListener("load",()=>{try{
+      applyChatBlock(iframe);
       const href=iframe.contentWindow.location.href;
       if(href&&/^https?:\/\//.test(href))upsert(id,{src:href});
       const inner=iframe.contentDocument?.title;
       if(inner){titleEl.textContent=inner;upsert(id,{titleText:inner});}}catch{}});
+  }
+
+  function applyChatBlock(iframe){
+    try{
+      const doc=iframe.contentDocument;
+      if(!doc) return;
+      if(!doc.getElementById(CHAT_BLOCK_STYLE_ID)){
+        const s=doc.createElement("style");
+        s.id=CHAT_BLOCK_STYLE_ID;
+        s.textContent=CHAT_BLOCK_CSS;
+        doc.head?.appendChild(s);
+      }
+      const chatRoot=doc.getElementById("chatRoot")||doc.getElementById("chat-root")||doc.querySelector("[data-chat-root]");
+      if(chatRoot) chatRoot.style.display="none";
+    }catch{}
   }
 
   function applyMin(winEl,iframeEl,id,min){
@@ -200,6 +298,9 @@
     }
   };
 
-  restoreAll();
-  ensurePopout();
+  onReady(() => {
+    appendStyle();
+    restoreAll();
+    ensurePopout();
+  });
 })();
