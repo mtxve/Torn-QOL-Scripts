@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Always On Attack Button
 // @namespace    https://torn.com/
-// @version      1.0
+// @version      1.1
 // @description  Always enable the profile Attack button UI.
 // @author       Asemov/mtxve
 // @updateURL    https://raw.githubusercontent.com/mtxve/Torn-QOL-Scripts/refs/heads/main/AOAB.js
@@ -47,19 +47,15 @@
     return true;
   };
 
-  const tryEnable = () => {
-    const btn = document.querySelector(ATTACK_BUTTON_SELECTOR);
-    return prepButton(btn);
-  };
+  const tryEnable = () => prepButton(document.querySelector(ATTACK_BUTTON_SELECTOR));
 
   if (!tryEnable()) {
-    let tries = 0;
-    const maxTries = 50;
-    const interval = setInterval(() => {
-      tries += 1;
-      if (tryEnable() || tries >= maxTries) {
-        clearInterval(interval);
-      }
-    }, 100);
+    const root = document.documentElement || document.body;
+    if (!root) return;
+    const observer = new MutationObserver(() => {
+      if (tryEnable()) observer.disconnect();
+    });
+    observer.observe(root, { childList: true, subtree: true });
+    setTimeout(() => observer.disconnect(), 10000);
   }
 })();
