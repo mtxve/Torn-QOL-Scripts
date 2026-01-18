@@ -3,7 +3,9 @@
 // @namespace    https://github.com/asemov/Torn-QOL-Scripts
 // @version      1.0
 // @description  Hides the trash icon on your items page, so Tactical_Santa doesn't accidentally trash something again.
-// @author       mtxve
+// @author       Asemov/mtxve
+// @updateURL    https://raw.githubusercontent.com/mtxve/Torn-QOL-Scripts/refs/heads/main/trashbegone.js
+// @downloadURL  https://raw.githubusercontent.com/mtxve/Torn-QOL-Scripts/refs/heads/main/trashbegone.js
 // @match        https://www.torn.com/item.php*
 // @run-at       document-idle
 // ==/UserScript==
