@@ -4,6 +4,8 @@
 // @version      1.2
 // @description  I was told I couldn't add loadout switching to the attack loader, so I brought the items page to the attack loader.... And everywhere else.
 // @author       Asemov/mtxve
+// @updateURL    https://raw.githubusercontent.com/mtxve/Torn-QOL-Scripts/refs/heads/main/tmfv.js
+// @downloadURL  https://raw.githubusercontent.com/mtxve/Torn-QOL-Scripts/refs/heads/main/tmfv.js
 // @match        https://www.torn.com/*
 // @grant        none
 // @run-at       document-start
