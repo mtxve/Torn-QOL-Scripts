@@ -4,6 +4,8 @@
 // @version      1.2
 // @description  Disable the damn locations you don't want to accidentally travel to.
 // @author       Asemov/mtxve
+// @updateURL    https://raw.githubusercontent.com/mtxve/Torn-QOL-Scripts/refs/heads/main/TCTDD.js
+// @downloadURL  https://raw.githubusercontent.com/mtxve/Torn-QOL-Scripts/refs/heads/main/TCTDD.js
 // @match        https://www.torn.com/page.php?sid=travel*
 // @grant        none
 // @run-at       document-idle
