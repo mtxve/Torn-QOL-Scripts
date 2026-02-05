@@ -5,7 +5,7 @@
 // @author       Asemov/mtxve
 // @updateURL    https://raw.githubusercontent.com/mtxve/Torn-QOL-Scripts/refs/heads/main/warline.js
 // @downloadURL  https://raw.githubusercontent.com/mtxve/Torn-QOL-Scripts/refs/heads/main/warline.js
-// @match        *://www.torn.com/*
+// @match        https://www.torn.com/factions.php*
 // @grant        none
 // @run-at       document-idle
 // ==/UserScript==
