@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Warline - Online Counter
 // @namespace    https://github.com/mtxve/Torn-QOL-Scripts
-// @version      1.0
+// @version      1.1
 // @author       Asemov/mtxve
 // @updateURL    https://raw.githubusercontent.com/mtxve/Torn-QOL-Scripts/refs/heads/main/warline.js
 // @downloadURL  https://raw.githubusercontent.com/mtxve/Torn-QOL-Scripts/refs/heads/main/warline.js
